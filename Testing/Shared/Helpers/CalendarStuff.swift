@@ -18,7 +18,8 @@ func convertToSecondsLeftInTheDay(date: Date) -> String {
     // Midnight is of value 0, but it resets to 84600 at 00:00.
     // If you want 23:59:59 to present that value zero remove the +1 in the next line of code.
     let secondsLeft = Int(secondsInDay - elapsed) + 1
-    return "\(secondsLeft)"
+    let formattedsecondsLeft = secondsLeft.formatted()
+    return "\(formattedsecondsLeft)"
 }
 
 func determineTimeIntervalUntilTheNextWholeSecond(from date: Date) -> TimeInterval {

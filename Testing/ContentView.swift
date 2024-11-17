@@ -15,8 +15,10 @@ struct ContentView: View {
         
         @Environment(\.openURL) var openLink
         
-       
 
+
+        
+        
             let DOY = getDayOfYear()
             let DRNoW = daysinyear()
             let WN = weekNumber()
@@ -28,7 +30,7 @@ struct ContentView: View {
             VStack {
                 
                 Text("Zen Pi!")
-                    .font(.system(size: 100, weight: .medium, design: .serif))
+                    .font(.system(size: 60, weight: .medium, design: .serif))
                 
                 
                     .padding()
@@ -99,7 +101,7 @@ struct ContentView: View {
                     
                     
                     Button {
-                        openLink(URL(string: "https://xyzzy42.me/links")!)
+                        openLink(URL(string: "https://links.xyzzy42.me/")!)
                     } label: {
                         Text("XYZZY 42 Me")
                             .frame(width: 120, height: 60)
