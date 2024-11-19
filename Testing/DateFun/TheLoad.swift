@@ -7,7 +7,7 @@
 
 import SwiftUI
 import Foundation
-
+import Combine
 
 func getDayOfYear() -> Int {
     
@@ -46,21 +46,43 @@ func daysinyear() -> Int {
 }
 
 
-func weekNumber() -> Int {
+func weekNumber() -> String {
     
     let calendar = Calendar.current
     let weekOfYear = calendar.component(.weekOfYear, from: Date(timeIntervalSinceNow: 0))
-    return weekOfYear
+    
+    let WeekOfYearX = String(weekOfYear)
+    return WeekOfYearX
     
     
 }
 
-func dayNumber() -> Int {
+func dayNumber() -> String {
     
     let calendar = Calendar.current
     let dayOfWeek = calendar.component(.weekday, from: Date(timeIntervalSinceNow: 0))
-    return dayOfWeek
+    let DayOfWeekX = String(dayOfWeek)
+    return DayOfWeekX
     
     
 }
 
+class mySetVarX {
+    
+    let currentTimePublisher = Timer.TimerPublisher(interval: 1.0, runLoop: .main, mode: .default)
+    let cancellable: AnyCancellable?
+    
+    init() {
+        
+        self.cancellable = currentTimePublisher.connect() as? AnyCancellable
+        
+    }
+    
+    
+    deinit {
+        self.cancellable?.cancel()
+    }
+    
+    
+}
+  

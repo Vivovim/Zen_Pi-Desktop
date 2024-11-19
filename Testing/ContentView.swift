@@ -13,47 +13,65 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         
+        @State var refreshView = false
+        
         @Environment(\.openURL) var openLink
         
-
-
         
         
-            let DOY = getDayOfYear()
-            let DRNoW = daysinyear()
-            let WN = weekNumber()
-            let DN = dayNumber()
-       
+        @State var DOY = getDayOfYear()
+        @State var DRNoW = daysinyear()
+        @State var WN = weekNumber()
+        @State var DN = dayNumber()
+        
+        
+        
+        
+        
+        
+        VStack {
+            
+            Text("Zen Pi!")
+                .font(.system(size: 42, weight: .medium, design: .serif))
             
             
-            
-            VStack {
+                .padding()
+            HStack(spacing: 100) {
                 
-                Text("Zen Pi!")
-                    .font(.system(size: 60, weight: .medium, design: .serif))
-                
-                
-                    .padding()
-                HStack(spacing: 100) {
+                VStack() {
                     
-                    VStack() {
-                        
-                        Text("Day Of Year")
-                        Text("\(DOY)")
-                            .font(.system(size: 42, weight: .medium, design: .serif))
-                            .foregroundColor(.green)
-                    }
-                    Spacer()
-                    VStack {
-                        
-                        
-                        
-                        Text("Days Remaining")
-                        Text("\(DRNoW)")
-                            .font(.system(size: 42, weight: .medium, design: .serif))
-                            .foregroundColor(.green)
-                    }
+                    Text("Day Of Year")
+                    Text("\(DOY)")
+                        .font(.system(size: 42, weight: .medium, design: .serif))
+                        .foregroundColor(.green)
+                        .onReceive(NotificationCenter.default
+                                    .publisher(for: NSNotification.Name.NSCalendarDayChanged)) { (output) in
+                                    // Update variables at midnight here
+                                        DOY = getDayOfYear()
+                                }
                 }
+                
+                
+                
+                Spacer()
+                VStack {
+                    
+                    
+                    
+                    Text("Days Remaining")
+                    Text("\(DRNoW)")
+                        .font(.system(size: 42, weight: .medium, design: .serif))
+                        .foregroundColor(.green)
+                        .onReceive(NotificationCenter.default
+                                    .publisher(for: NSNotification.Name.NSCalendarDayChanged)) { (output) in
+                                    // Update variables at midnight here
+                                        DRNoW = daysinyear()
+                                }
+                       
+                        
+                }
+                
+            }
                 Divider()
                 
                 HStack(spacing: 100) {
@@ -65,7 +83,13 @@ struct ContentView: View {
                         Text("\(WN)")
                             .font(.system(size: 42, weight: .medium, design: .serif))
                             .foregroundColor(.green)
+                            .onReceive(NotificationCenter.default
+                                        .publisher(for: NSNotification.Name.NSCalendarDayChanged)) { (output) in
+                                        // Update variables at midnight here
+                                            WN = weekNumber()
+                                    }
                     }
+                    
                     Spacer()
                     
                     VStack {
@@ -75,20 +99,24 @@ struct ContentView: View {
                         Text("\(DN)")
                             .font(.system(size: 42, weight: .medium, design: .serif))
                             .foregroundColor(.green)
+                            .onReceive(NotificationCenter.default
+                                        .publisher(for: NSNotification.Name.NSCalendarDayChanged)) { (output) in
+                                        // Update variables at midnight here
+                                            DN = dayNumber()
+                                    }
                     }
                 }
                 
-               
+            
                 
                 
-                VStack {
-                        
-                        Text("Seconds Remaining This Year")
-                            .foregroundStyle(Color.green)
-                            .font(.caption)
-                        let SecondsYearModel = SecondsYearModel()
-                        SecondsYearView(model: SecondsYearModel)
-                   
+                VStack(spacing: 10) {
+                    
+                    Text("Seconds Remaining This Year")
+                        .foregroundStyle(Color.green)
+                        .font(.caption)
+                    let SecondsYearModel = SecondsYearModel()
+                    SecondsYearView(model: SecondsYearModel)
                     
                     
                     
@@ -100,28 +128,43 @@ struct ContentView: View {
                     
                     
                     
-                    Button {
-                        openLink(URL(string: "https://links.xyzzy42.me/")!)
-                    } label: {
-                        Text("XYZZY 42 Me")
-                            .frame(width: 120, height: 60)
-                            .background(.blue)
-                            .foregroundStyle(.green)
-                            .fontWeight(.heavy)
-                            .fontDesign(.rounded)
-                            .clipShape(.rect)
-                    }
+                    
                 }
                 
                 
-                .frame(minWidth: 600, minHeight: 400)
+                .frame(minWidth: 600, minHeight: 300)
                 .background(Color.black)
                 
-                
+                Button {
+                    openLink(URL(string: "https://links.xyzzy42.me/")!)
+                } label: {
+                    Text("XYZZY 42 Me")
+                        .frame(width: 120, height: 60)
+                        .background(.blue)
+                        .foregroundStyle(.green)
+                        .fontWeight(.heavy)
+                        .fontDesign(.rounded)
+                        .clipShape(.rect)
+                }
+            
+            
+            Button("Refresh View") {
+                refreshView.toggle()
             }
+            .buttonStyle(.borderedProminent)
+            
+            
+            }
+        
+            
+            
             .padding()
         }
+        
+        
+        
     }
+
 
 #Preview {
     ContentView()
