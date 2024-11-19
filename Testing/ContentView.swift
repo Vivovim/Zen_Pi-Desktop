@@ -13,7 +13,7 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         
-        @State var refreshView = false
+    
         
         @Environment(\.openURL) var openLink
         
@@ -25,7 +25,16 @@ struct ContentView: View {
         @State var DN = dayNumber()
         
         
+        @State var pub = NotificationCenter.default
+            .publisher(for: NSNotification.Name("UpdateNoW"))
+
         
+            // .onReceive(NotificationCenter.default
+             //           .publisher(for: NSNotification.Name.NSCalendarDayChanged)) {
+            // (output) in
+            // Update variables at midnight here
+           //         }
+           
         
         
         
@@ -45,7 +54,7 @@ struct ContentView: View {
                         .font(.system(size: 42, weight: .medium, design: .serif))
                         .foregroundColor(.green)
                         .onReceive(NotificationCenter.default
-                                    .publisher(for: NSNotification.Name.NSCalendarDayChanged)) { (output) in
+                                    .publisher(for: NSNotification.Name("UpdateNoW"))) { (output) in
                                     // Update variables at midnight here
                                         DOY = getDayOfYear()
                                 }
@@ -63,7 +72,7 @@ struct ContentView: View {
                         .font(.system(size: 42, weight: .medium, design: .serif))
                         .foregroundColor(.green)
                         .onReceive(NotificationCenter.default
-                                    .publisher(for: NSNotification.Name.NSCalendarDayChanged)) { (output) in
+                            .publisher(for: NSNotification.Name("UpdateNoW"))) { (output) in
                                     // Update variables at midnight here
                                         DRNoW = daysinyear()
                                 }
@@ -84,7 +93,7 @@ struct ContentView: View {
                             .font(.system(size: 42, weight: .medium, design: .serif))
                             .foregroundColor(.green)
                             .onReceive(NotificationCenter.default
-                                        .publisher(for: NSNotification.Name.NSCalendarDayChanged)) { (output) in
+                                .publisher(for: NSNotification.Name("UpdateNoW"))) { (output) in
                                         // Update variables at midnight here
                                             WN = weekNumber()
                                     }
@@ -100,7 +109,7 @@ struct ContentView: View {
                             .font(.system(size: 42, weight: .medium, design: .serif))
                             .foregroundColor(.green)
                             .onReceive(NotificationCenter.default
-                                        .publisher(for: NSNotification.Name.NSCalendarDayChanged)) { (output) in
+                                .publisher(for: NSNotification.Name("UpdateNoW"))) { (output) in
                                         // Update variables at midnight here
                                             DN = dayNumber()
                                     }
@@ -149,7 +158,7 @@ struct ContentView: View {
             
             
             Button("Refresh View") {
-                refreshView.toggle()
+                
             }
             .buttonStyle(.borderedProminent)
             

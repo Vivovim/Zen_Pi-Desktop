@@ -23,11 +23,13 @@ func getDayOfYear() -> Int {
 func daysinyear() -> Int {
     
     var days2: Int
-    
-    
     let NoW = getDayOfYear()
+    let currentDate = Date()
+    let calendar = Calendar.current
+    let currentYear = calendar.component(.year, from: currentDate)
     
-    if NoW % 4 != 0 {
+    
+    if currentYear % 4 == 0 {
         
         days2 = 366
         
