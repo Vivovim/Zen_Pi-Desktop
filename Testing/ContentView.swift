@@ -6,9 +6,17 @@
 //
 
 import SwiftUI
+import Combine
+import AppKit
 
 
-
+class veryimportant: ObservableObject {
+    @Published var DOY = getDayOfYear()
+    @Published var DRNoW = daysinyear()
+    @Published var WN = weekNumber()
+    @Published var DN = dayNumber()
+    
+}
 
 struct ContentView: View {
     var body: some View {
@@ -17,23 +25,12 @@ struct ContentView: View {
         
         @Environment(\.openURL) var openLink
         
+        @ObservedObject var viewModel = veryimportant()
+       
         
+    
         
-        @State var DOY = getDayOfYear()
-        @State var DRNoW = daysinyear()
-        @State var WN = weekNumber()
-        @State var DN = dayNumber()
-        
-        
-        @State var pub = NotificationCenter.default
-            .publisher(for: NSNotification.Name("UpdateNoW"))
-
-        
-            // .onReceive(NotificationCenter.default
-             //           .publisher(for: NSNotification.Name.NSCalendarDayChanged)) {
-            // (output) in
-            // Update variables at midnight here
-           //         }
+           
            
         
         
@@ -50,14 +47,8 @@ struct ContentView: View {
                 VStack() {
                     
                     Text("Day Of Year")
-                    Text("\(DOY)")
-                        .font(.system(size: 42, weight: .medium, design: .serif))
-                        .foregroundColor(.green)
-                        .onReceive(NotificationCenter.default
-                                    .publisher(for: NSNotification.Name("UpdateNoW"))) { (output) in
-                                    // Update variables at midnight here
-                                        DOY = getDayOfYear()
-                                }
+                    let DaysOfYearModel = SuperModel()
+                    DaysInYearView(model: DaysOfYearModel)
                 }
                 
                 
@@ -68,15 +59,8 @@ struct ContentView: View {
                     
                     
                     Text("Days Remaining")
-                    Text("\(DRNoW)")
-                        .font(.system(size: 42, weight: .medium, design: .serif))
-                        .foregroundColor(.green)
-                        .onReceive(NotificationCenter.default
-                            .publisher(for: NSNotification.Name("UpdateNoW"))) { (output) in
-                                    // Update variables at midnight here
-                                        DRNoW = daysinyear()
-                                }
-                       
+                    let DaysLeftModel = SuperModel()
+                    DaysLeftView(model: DaysLeftModel)
                         
                 }
                 
@@ -89,14 +73,8 @@ struct ContentView: View {
                         
                         
                         Text("Week Number")
-                        Text("\(WN)")
-                            .font(.system(size: 42, weight: .medium, design: .serif))
-                            .foregroundColor(.green)
-                            .onReceive(NotificationCenter.default
-                                .publisher(for: NSNotification.Name("UpdateNoW"))) { (output) in
-                                        // Update variables at midnight here
-                                            WN = weekNumber()
-                                    }
+                        let WeekNumberModel = SuperModel()
+                        WeekNumberView(model: WeekNumberModel)
                     }
                     
                     Spacer()
@@ -105,14 +83,8 @@ struct ContentView: View {
                         
                         Text("Day of Week")
                         
-                        Text("\(DN)")
-                            .font(.system(size: 42, weight: .medium, design: .serif))
-                            .foregroundColor(.green)
-                            .onReceive(NotificationCenter.default
-                                .publisher(for: NSNotification.Name("UpdateNoW"))) { (output) in
-                                        // Update variables at midnight here
-                                            DN = dayNumber()
-                                    }
+                        let DayOfWeekModel = SuperModel()
+                        DayOfWeekView(model: DayOfWeekModel)
                     }
                 }
                 
@@ -157,10 +129,7 @@ struct ContentView: View {
                 }
             
             
-            Button("Refresh View") {
-                
-            }
-            .buttonStyle(.borderedProminent)
+           
             
             
             }
