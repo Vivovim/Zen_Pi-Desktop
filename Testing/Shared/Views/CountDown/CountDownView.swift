@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CountDownView: View {
-    @StateObject var model: CountDownModel
+    @StateObject var model: SuperModelX
     
     var body: some View {
         CountDownTextView(secondsLeft: model.countDownText)
@@ -19,6 +19,6 @@ struct CountDownView: View {
 
 @available(iOS 17.0, *)
 #Preview {
-    let model = CountDownModel()
+    let model = SuperModelX()
     CountDownView(model: model)
 }

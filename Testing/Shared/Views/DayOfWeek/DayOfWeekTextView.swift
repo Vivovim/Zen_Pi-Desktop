@@ -9,16 +9,17 @@
 import SwiftUI
 
 struct DayOfWeekTextView: View {
-    let DayOfWeekX: String
+    var DayOfWeekX: String
     
     var body: some View {
         if #available(iOS 16.0, watchOS 9.0, *) {
             Text(DayOfWeekX)
                 .contentTransition(.numericText(countsDown: true))
                 .animation(.default, value: DayOfWeekX)
-                .font(.system(size: 42, weight: .medium, design: .serif))
+                .font(.system(size: 42, weight: .medium, design: .monospaced))
                 .foregroundColor(.green)
                 .animation(.easeInOut(duration: 0.5), value: DayOfWeekX)
+                
         } else {
             // Fallback on earlier versions
             Text(DayOfWeekX)

@@ -15,7 +15,7 @@ struct SecondsYearTextView: View {
             Text(secondsNYD)
                 .contentTransition(.numericText(countsDown: true))
                 .animation(.default, value: secondsNYD)
-                .font(.largeTitle)
+                .font(.system(size: 26, weight: .medium, design: .monospaced))
                 .foregroundStyle(Color.green)
                 .animation(.easeInOut(duration: 0.5), value: secondsNYD)
         } else {

@@ -25,7 +25,7 @@ struct Zen_Pi: App {
         WindowGroup {
             ContentView()
                 
-                .frame(minWidth: 650, maxWidth: 650, minHeight: 800, maxHeight: 800)
+                .frame(minWidth: 500, maxWidth: 750, minHeight: 550, maxHeight: 800)
                
         }
     }

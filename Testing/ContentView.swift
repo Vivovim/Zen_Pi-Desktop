@@ -10,54 +10,22 @@ import Combine
 import AppKit
 
 
-class veryimportant: ObservableObject {
-    @Published var DOY = getDayOfYear()
-    @Published var DRNoW = daysinyear()
-    @Published var WN = weekNumber()
-    @Published var DN = dayNumber()
-    
-}
 
 struct ContentView: View {
     var body: some View {
-        
-    
-        
         @Environment(\.openURL) var openLink
-        
-        @ObservedObject var viewModel = veryimportant()
-       
-        
-    
-        
-           
-           
-        
-        
-        
         VStack {
-            
-            Text("Zen Pi!")
-                .font(.system(size: 42, weight: .medium, design: .serif))
-            
-            
-                .padding()
-            HStack(spacing: 100) {
-                
+            HStack(spacing: 10) {
                 VStack() {
                     
                     Text("Day Of Year")
                     let DaysOfYearModel = SuperModel()
                     DaysInYearView(model: DaysOfYearModel)
                 }
-                
-                
-                
                 Spacer()
+                    .frame(width: 150)
+                
                 VStack {
-                    
-                    
-                    
                     Text("Days Remaining")
                     let DaysLeftModel = SuperModel()
                     DaysLeftView(model: DaysLeftModel)
@@ -66,23 +34,18 @@ struct ContentView: View {
                 
             }
                 Divider()
-                
-                HStack(spacing: 100) {
-                    
+                .frame(width: 400)
+            
+                HStack(spacing: 10) {
                     VStack {
-                        
-                        
                         Text("Week Number")
                         let WeekNumberModel = SuperModel()
                         WeekNumberView(model: WeekNumberModel)
                     }
-                    
                     Spacer()
-                    
+                        .frame(width: 150)
                     VStack {
-                        
                         Text("Day of Week")
-                        
                         let DayOfWeekModel = SuperModel()
                         DayOfWeekView(model: DayOfWeekModel)
                     }
@@ -95,16 +58,19 @@ struct ContentView: View {
                     
                     Text("Seconds Remaining This Year")
                         .foregroundStyle(Color.green)
-                        .font(.caption)
-                    let SecondsYearModel = SecondsYearModel()
+                        .fontWeight(.medium)
+                        .font(.title3)
+                    let SecondsYearModel = SuperModelX()
                     SecondsYearView(model: SecondsYearModel)
                     
-                    
+                    Spacer()
+                        .frame(height: 40)
                     
                     Text("Seconds Remaining Today")
                         .foregroundStyle(Color.green)
-                        .font(.caption)
-                    let countDownModel = CountDownModel()
+                        .fontWeight(.medium)
+                        .font(.title3)
+                    let countDownModel = SuperModelX()
                     CountDownView(model: countDownModel)
                     
                     
@@ -113,21 +79,29 @@ struct ContentView: View {
                 }
                 
                 
-                .frame(minWidth: 600, minHeight: 300)
+                .frame(minWidth: 400, maxHeight: 250)
                 .background(Color.black)
+                .border(.gray, width: 2)
                 
+                Spacer()
                 Button {
                     openLink(URL(string: "https://links.xyzzy42.me/")!)
+                    
+                    
                 } label: {
+                    Image(systemName: "globe")
+                        .imageScale(.large)
                     Text("XYZZY 42 Me")
-                        .frame(width: 120, height: 60)
-                        .background(.blue)
-                        .foregroundStyle(.green)
-                        .fontWeight(.heavy)
-                        .fontDesign(.rounded)
-                        .clipShape(.rect)
+                        .tint(.blue)
+                        
                 }
-            
+                
+                .controlSize(.regular)
+                .foregroundColor(.white)
+                .padding()
+                .buttonStyle(.borderedProminent)
+                .background(.blue)
+                .cornerRadius(10)
             
            
             
@@ -135,8 +109,7 @@ struct ContentView: View {
             }
         
             
-            
-            .padding()
+        .padding()
         }
         
         

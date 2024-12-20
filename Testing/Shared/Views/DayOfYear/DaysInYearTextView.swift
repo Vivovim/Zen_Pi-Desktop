@@ -16,9 +16,10 @@ struct DaysInYearTextView: View {
             Text(DayOfYearSet)
                 .contentTransition(.numericText(countsDown: true))
                 .animation(.default, value: DayOfYearSet)
-                .font(.system(size: 42, weight: .medium, design: .serif))
+                .font(.system(size: 42, weight: .medium, design: .monospaced))
                 .foregroundColor(.green)
                 .animation(.easeInOut(duration: 0.5), value: DayOfYearSet)
+                
         } else {
             // Fallback on earlier versions
             Text(DayOfYearSet)

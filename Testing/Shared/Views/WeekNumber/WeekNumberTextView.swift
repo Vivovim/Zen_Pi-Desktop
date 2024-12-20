@@ -16,7 +16,7 @@ struct WeekNumberTextView: View {
             Text(WeekNumberX)
                 .contentTransition(.numericText(countsDown: true))
                 .animation(.default, value: WeekNumberX)
-                .font(.system(size: 42, weight: .medium, design: .serif))
+                .font(.system(size: 42, weight: .medium, design: .monospaced))
                 .foregroundColor(.green)
                 .animation(.easeInOut(duration: 0.5), value: WeekNumberX)
         } else {

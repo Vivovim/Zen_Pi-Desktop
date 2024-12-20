@@ -25,9 +25,10 @@ final class SuperModel: ObservableObject {
     @Published private(set) var DayOfYear: String = getDayOfYearX()
     @Published private(set) var DayOfWeek: String = dayNumber()
     
+    @Published private(set) var reloadX: Double = getreloaddataX()
     
     
-    
+  
     
     
     private var bagSet = Set<AnyCancellable>()
@@ -35,24 +36,33 @@ final class SuperModel: ObservableObject {
     func startNow() {
         
         
-        var x86400 = Timer()
         
-        x86400 = Timer.scheduledTimer(
-            timeInterval: 1,
-            target: self,
-            selector: #selector(updateGroupx),
-            userInfo: nil,
-            repeats: true
-        )
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateGroupx(notification:)), name: .NSCalendarDayChanged, object: nil)
+           
+        
+       // var x86400 = Timer()
+        
+       // x86400 = Timer.scheduledTimer(
+       //     timeInterval: 1,
+       //     target: self,
+       //     selector: #selector(updateGroupx),
+       //     userInfo: nil,
+       //     repeats: true
+            
+       // )
     }
         
-    
-    @objc func updateGroupx( _ sender: Timer) {
+    @objc func updateGroupx(notification : NSNotification ) {
+        
+        
         WeekNumber = weekNumber()
         DaysLeft = daysinyear()
         DayOfYear = getDayOfYearX()
         DayOfWeek = dayNumber()
+        
     }
+   
     
 }
 
@@ -144,4 +154,20 @@ func dayNumber() -> String {
     return DayOfWeekX
     
     
+}
+
+
+
+
+func getreloaddataX() -> Double {
+    let NoW = Date()
+    let calendar = Calendar.current
+    let midnight = calendar.startOfDay(for: NoW)
+    let secondsInDay: TimeInterval = 60 * 60 * 24
+    let elapsed = NoW.timeIntervalSince(midnight)
+    // Midnight is of value 0, but it resets to 84600 at 00:00.
+    // If you want 23:59:59 to present that value zero remove the +1 in the next line of code.
+    let secondsLeft = Int(secondsInDay - elapsed) + 1
+    let xsecondsLeft = Double(secondsLeft)
+    return xsecondsLeft
 }

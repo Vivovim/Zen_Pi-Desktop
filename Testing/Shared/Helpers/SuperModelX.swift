@@ -1,20 +1,48 @@
 //
-//  SecondsYear.swift
-//  Testing
+//  SuperModelX.swift
+//  Zen Pi
 //
-//  Created by Christopher Huffaker on 11/16/24.
+//  Created by Christopher Huffaker on 11/20/24.
 //
 
-import Foundation
 import SwiftUI
 import Combine
 
 @MainActor
-final class SecondsYearModel: ObservableObject {
-   
+final class SuperModelX: ObservableObject {
+    @Published private(set) var countDownText: String = "86400"
     @Published private(set) var NewYearsDate: String = "31,536,000"
     
-    private var bagX = Set<AnyCancellable>()
+    
+    
+    private var bag = Set<AnyCancellable>()
+    
+    func start() {
+        // Determine time until the next whole second.
+        let now = Date()
+        let delay = determineTimeIntervalUntilTheNextWholeSecond(from: now)
+        // Launch Timer after delay.
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+            // Don't start publisher if self doesn't exist.
+            guard let self else { return }
+            // Create a Timer that fires every second and updates countDownText.
+            Timer.publish(every: 1, on: .main, in: .common)
+                .autoconnect()
+                .map(convertToSecondsLeftInTheDay(date:))
+                .sink { [weak self] timeString in
+                    self?.countDownText = timeString
+                }
+                .store(in: &self.bag)
+        }
+    }
+    
+    func stop() {
+        bag.removeAll(keepingCapacity: true)
+    }
+
+
+
+
     
     func startX() {
 
@@ -22,12 +50,6 @@ final class SecondsYearModel: ObservableObject {
      
         let now = Date()
         let delay = determineTimeIntervalUntilTheNextWholeSecond(from: now)
-        
-        
-       
-        
-        
-        
         
         
         
@@ -42,16 +64,16 @@ final class SecondsYearModel: ObservableObject {
                 .sink { [weak self] timeString in
                     self?.NewYearsDate = timeString
                 }
-                .store(in: &self.bagX)
+                .store(in: &self.bag)
         }
     }
     
     func stopX() {
-        bagX.removeAll(keepingCapacity: true)
+        bag.removeAll(keepingCapacity: true)
     }
+
+
 }
-
-
 
 
 
@@ -87,7 +109,7 @@ func setupNewYear(date: Date) -> String {
 
     let dateX = Calendar.current.date(from: components)!; // Create Date object from components
 
-    var NewYearDay =  dateX.timeIntervalSince(currentDate) // Returns the number of seconds between 'now' and 'pastDate'
+    let NewYearDay =  dateX.timeIntervalSince(currentDate)// Returns the number of seconds between 'now' and 'pastDate'
     
     let NewYearDayInt = Int(NewYearDay)
     
@@ -122,3 +144,4 @@ func setupNewYear(date: Date) -> String {
    
     
     
+

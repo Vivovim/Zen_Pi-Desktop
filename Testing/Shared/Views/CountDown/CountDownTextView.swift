@@ -15,7 +15,7 @@ struct CountDownTextView: View {
             Text(secondsLeft)
                 .contentTransition(.numericText(countsDown: true))
                 .animation(.default, value: secondsLeft)
-                .font(.largeTitle)
+                .font(.system(size: 26, weight: .medium, design: .monospaced))
                 .foregroundStyle(Color.green)
                 .animation(.easeInOut(duration: 0.5), value: secondsLeft)
         } else {
