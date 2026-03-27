@@ -8,25 +8,81 @@
 import SwiftUI
 import Combine
 
+
+struct HelpMenu: View {
+  var body: some View {
+    Group {
+      Link("Visit Our Site", destination: URL(
+        string: "https://www.zenpi.app/Support.php")!)
+      // Place other Help menu items here.
+    }
+    }
+    
+    
+}
+
+
+
+
+
 @main
 
 struct Zen_Pi: App {
     
-   
-    
-  
+    @Environment(\.openURL) var openHelpLink
     
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+   
+    
+   
     
     
     var body: some Scene {
-    
         
-        WindowGroup {
+        
+        Window("Zen Pi", id: "mainwindow") {
             ContentView()
-                
-                .frame(minWidth: 500, maxWidth: 750, minHeight: 550, maxHeight: 800)
-               
+            
+              
+                .frame(width: 550, height: 710)
         }
+       
+        
+        .windowResizability(.contentSize)
+      
+        
+        .commands {
+            CommandGroup(replacing: .help) {
+                HelpMenu()
+            }
+        }
+        
+        
+        
+        .commands {
+            CommandGroup(replacing: CommandGroupPlacement.appInfo) {
+                Button(action: {
+                    appDelegate.showAboutPanel()
+                }) {
+                    Text("About Zen Pi")
+                }
+            }
+            
+        }
+        
+       
+        
+        
+        
     }
+    
+   
+    
+    
+    
+    
+    
+    
 }
+
+    

@@ -8,6 +8,7 @@
 
 /* Begin PBXFileReference section */
 		E3122D4F2CE95F8F00C35EC4 /* Zen Pi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Zen Pi.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E31E929B2D17D4170029F05A /* Zen-Pi-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Zen-Pi-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +33,7 @@
 		E3122D462CE95F8F00C35EC4 = {
 			isa = PBXGroup;
 			children = (
+				E31E929B2D17D4170029F05A /* Zen-Pi-Info.plist */,
 				E3122D512CE95F8F00C35EC4 /* Testing */,
 				E3122D502CE95F8F00C35EC4 /* Products */,
 			);
@@ -253,13 +255,14 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"Testing/Preview Content\"";
 				DEVELOPMENT_TEAM = QZ94XJ42YA;
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = QZ94XJ42YA;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Zen-Pi-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Zen Pi";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -268,7 +271,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.christopherhuffaker.zenpi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
@@ -287,13 +290,14 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Distribution";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = "\"Testing/Preview Content\"";
 				DEVELOPMENT_TEAM = QZ94XJ42YA;
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = QZ94XJ42YA;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Zen-Pi-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Zen Pi";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -302,7 +306,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.christopherhuffaker.zenpi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";

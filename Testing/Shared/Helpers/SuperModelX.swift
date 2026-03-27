@@ -10,7 +10,7 @@ import Combine
 
 @MainActor
 final class SuperModelX: ObservableObject {
-    @Published private(set) var countDownText: String = "86400"
+    @Published private(set) var countDownText: String = "86,400"
     @Published private(set) var NewYearsDate: String = "31,536,000"
     
     

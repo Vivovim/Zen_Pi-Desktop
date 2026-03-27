@@ -17,6 +17,57 @@ import Foundation
 import SwiftUI
 import Combine
 
+
+@MainActor
+final class SuperModelDO: ObservableObject {
+    
+    @Published private(set) var dailyX: String = "Loading. . ." /// Must have a default value
+    ///
+    private var bagSetX = Set<AnyCancellable>()
+    
+    
+    func beginStartX() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateGroupxx(notification:)), name: .NSCalendarDayChanged, object: nil)
+        
+    }
+    
+    init() {
+        Task {
+            let result = await buildIt()
+            DispatchQueue.main.async {
+                self.dailyX = result ?? ""
+            }
+        }
+    }
+    
+    
+    /// NEW USING ASYNC
+    func buildIt() async -> String? {
+        await withCheckedContinuation { continuation in
+            // Call the completion-based method
+            EntryService.shared.getEntryString(doy: getDayOfYear()) { entryString in
+                // Resume the continuation with the result
+                continuation.resume(returning: entryString)
+            }
+        }
+    }
+    
+    
+    @objc func updateGroupxx(notification : NSNotification) {
+        Task {
+            let result = await buildIt()
+            DispatchQueue.main.async {
+                self.dailyX = result ?? ""
+            }
+        }
+    }
+    
+}
+
+
+
+
 @MainActor
 final class SuperModel: ObservableObject {
    
@@ -24,11 +75,7 @@ final class SuperModel: ObservableObject {
     @Published private(set) var DaysLeft: String = daysinyear()
     @Published private(set) var DayOfYear: String = getDayOfYearX()
     @Published private(set) var DayOfWeek: String = dayNumber()
-    
-    @Published private(set) var reloadX: Double = getreloaddataX()
-    
-    
-  
+   
     
     
     private var bagSet = Set<AnyCancellable>()
@@ -41,16 +88,7 @@ final class SuperModel: ObservableObject {
         NotificationCenter.default.addObserver(self, selector: #selector(updateGroupx(notification:)), name: .NSCalendarDayChanged, object: nil)
            
         
-       // var x86400 = Timer()
-        
-       // x86400 = Timer.scheduledTimer(
-       //     timeInterval: 1,
-       //     target: self,
-       //     selector: #selector(updateGroupx),
-       //     userInfo: nil,
-       //     repeats: true
-            
-       // )
+     
     }
         
     @objc func updateGroupx(notification : NSNotification ) {
@@ -60,8 +98,9 @@ final class SuperModel: ObservableObject {
         DaysLeft = daysinyear()
         DayOfYear = getDayOfYearX()
         DayOfWeek = dayNumber()
-        
+       
     }
+    
    
     
 }

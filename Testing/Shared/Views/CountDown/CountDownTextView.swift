@@ -30,5 +30,5 @@ struct CountDownTextView: View {
 }
 
 #Preview {
-    CountDownTextView(secondsLeft: "86400")
+    CountDownTextView(secondsLeft: "86,400")
 }
