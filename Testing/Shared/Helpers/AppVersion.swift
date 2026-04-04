@@ -7,25 +7,29 @@
 
 import Foundation
 
+/// Shared version constants for cross-platform consistency.
+/// Update these values when releasing a new version.
+private let zenPiVersion = "1.9"
+private let zenPiBuild = "14"
 
 func getAppVersion() -> String {
     #if os(Linux)
-    return "1.9"
+    return zenPiVersion
     #else
     if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
         return appVersion
     }
-    return "Unknown"
+    return zenPiVersion
     #endif
 }
 
 func getBuildNumber() -> String {
     #if os(Linux)
-    return "14"
+    return zenPiBuild
     #else
     if let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
         return buildNumber
     }
-    return "Unknown"
+    return zenPiBuild
     #endif
 }
