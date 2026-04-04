@@ -5,6 +5,7 @@
 //  Created by Mark Cornelisse on 30/10/2024.
 //
 
+#if canImport(SwiftUI)
 import SwiftUI
 
 struct SecondsYearView: View {
@@ -23,3 +24,5 @@ struct SecondsYearView: View {
     SecondsYearView(model: model)
     
 }
+
+#endif // canImport(SwiftUI)

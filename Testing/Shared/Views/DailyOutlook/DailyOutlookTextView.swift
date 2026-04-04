@@ -22,6 +22,7 @@
 //
 
 
+#if canImport(SwiftUI)
 import SwiftUI
 
 struct DailyOutlookTextView: View {
@@ -55,3 +56,5 @@ struct DailyOutlookTextView: View {
 
 
 
+
+#endif // canImport(SwiftUI)

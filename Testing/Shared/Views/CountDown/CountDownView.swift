@@ -5,6 +5,7 @@
 //  Created by Mark Cornelisse on 30/10/2024.
 //
 
+#if canImport(SwiftUI)
 import SwiftUI
 
 struct CountDownView: View {
@@ -22,3 +23,5 @@ struct CountDownView: View {
     let model = SuperModelX()
     CountDownView(model: model)
 }
+
+#endif // canImport(SwiftUI)

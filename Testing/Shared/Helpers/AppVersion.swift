@@ -6,19 +6,26 @@
 //
 
 import Foundation
-import SwiftUI
 
 
 func getAppVersion() -> String {
-      if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-          return appVersion
-      }
-      return "Unknown"
-  }
+    #if os(Linux)
+    return "1.9"
+    #else
+    if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+        return appVersion
+    }
+    return "Unknown"
+    #endif
+}
 
-  func getBuildNumber() -> String {
-      if let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
-          return buildNumber
-      }
-      return "Unknown"
-  }
+func getBuildNumber() -> String {
+    #if os(Linux)
+    return "14"
+    #else
+    if let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
+        return buildNumber
+    }
+    return "Unknown"
+    #endif
+}

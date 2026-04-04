@@ -6,6 +6,7 @@
 //
 
 
+#if canImport(SwiftUI)
 import SwiftUI
 
 struct WeekNumberTextView: View {
@@ -35,3 +36,5 @@ struct WeekNumberTextView: View {
 #Preview {
     WeekNumberTextView(WeekNumberX: "42")
 }
+
+#endif // canImport(SwiftUI)

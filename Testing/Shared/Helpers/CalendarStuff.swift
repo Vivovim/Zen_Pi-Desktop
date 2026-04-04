@@ -5,7 +5,15 @@
 //  Created by Mark Cornelisse on 31/10/2024.
 //
 
-import SwiftUI
+import Foundation
+
+/// Formats an integer with locale-aware grouping separators (e.g., 86400 -> "86,400").
+/// Uses NumberFormatter for cross-platform compatibility (macOS and Linux).
+func formattedNumber(_ value: Int) -> String {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .decimal
+    return formatter.string(from: NSNumber(value: value)) ?? String(value)
+}
 
 /// Converts a value of Date to the amount of seconds left in a day
 /// - Parameter date: A date value of which the amount of seconds left in it's day will be calculated
@@ -18,7 +26,7 @@ func convertToSecondsLeftInTheDay(date: Date) -> String {
     // Midnight is of value 0, but it resets to 84600 at 00:00.
     // If you want 23:59:59 to present that value zero remove the +1 in the next line of code.
     let secondsLeft = Int(secondsInDay - elapsed) + 1
-    let formattedsecondsLeft = secondsLeft.formatted()
+    let formattedsecondsLeft = formattedNumber(secondsLeft)
     return "\(formattedsecondsLeft)"
 }
 
