@@ -5,6 +5,7 @@
 //  Created by Mark Cornelisse on 31/10/2024.
 //
 
+#if canImport(SwiftUI)
 import SwiftUI
 
 struct SecondsYearTextView: View {
@@ -32,3 +33,5 @@ struct SecondsYearTextView: View {
 #Preview {
     SecondsYearTextView(secondsNYD: "31,536,000")
 }
+
+#endif // canImport(SwiftUI)

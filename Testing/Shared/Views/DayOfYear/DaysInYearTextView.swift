@@ -6,6 +6,7 @@
 //
 
 
+#if canImport(SwiftUI)
 import SwiftUI
 
 struct DaysInYearTextView: View {
@@ -35,3 +36,5 @@ struct DaysInYearTextView: View {
 #Preview {
     DaysInYearTextView(DayOfYearSet: "42")
 }
+
+#endif // canImport(SwiftUI)

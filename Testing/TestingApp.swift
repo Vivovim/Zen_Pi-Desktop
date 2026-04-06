@@ -5,6 +5,7 @@
 //  Created by Christopher Huffaker on 11/16/24.
 //
 
+#if os(macOS)
 import SwiftUI
 import Combine
 
@@ -85,4 +86,4 @@ struct Zen_Pi: App {
     
 }
 
-    
+#endif // os(macOS)

@@ -5,6 +5,7 @@
 //  Created by Christopher Huffaker on 11/17/24.
 //
 
+#if os(macOS)
 import SwiftUI
 import Foundation
 import AppKit
@@ -103,9 +104,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
 }
 
-
-
-
-
+#endif // os(macOS)
 
 

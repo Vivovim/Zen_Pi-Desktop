@@ -6,6 +6,7 @@
 //
 
 
+#if canImport(SwiftUI)
 import SwiftUI
 
 struct DayOfWeekTextView: View {
@@ -35,3 +36,5 @@ struct DayOfWeekTextView: View {
 #Preview {
     DayOfWeekTextView(DayOfWeekX: "42")
 }
+
+#endif // canImport(SwiftUI)

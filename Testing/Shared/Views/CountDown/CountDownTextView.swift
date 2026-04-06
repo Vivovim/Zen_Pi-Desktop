@@ -5,6 +5,7 @@
 //  Created by Mark Cornelisse on 31/10/2024.
 //
 
+#if canImport(SwiftUI)
 import SwiftUI
 
 struct CountDownTextView: View {
@@ -32,3 +33,5 @@ struct CountDownTextView: View {
 #Preview {
     CountDownTextView(secondsLeft: "86,400")
 }
+
+#endif // canImport(SwiftUI)

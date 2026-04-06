@@ -5,7 +5,12 @@
 //  Created by Christopher Huffaker on 11/20/24.
 //
 
+#if canImport(SwiftUI)
 import SwiftUI
+#else
+import Foundation
+#endif
+#if canImport(Combine)
 import Combine
 
 @MainActor
@@ -75,6 +80,8 @@ final class SuperModelX: ObservableObject {
 
 }
 
+#endif
+
 
 
 func setupNewYear(date: Date) -> String {
@@ -116,7 +123,7 @@ func setupNewYear(date: Date) -> String {
     let fixoffset = NewYearDayInt + 1
 
 
-    let FormattedNewYearsDay = fixoffset.formatted()
+    let FormattedNewYearsDay = formattedNumber(fixoffset)
     
     
     let NewYearXDay = String(FormattedNewYearsDay)

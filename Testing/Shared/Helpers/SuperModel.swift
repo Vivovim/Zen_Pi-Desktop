@@ -14,7 +14,10 @@
 
 
 import Foundation
+#if canImport(SwiftUI)
 import SwiftUI
+#endif
+#if canImport(Combine)
 import Combine
 
 
@@ -28,7 +31,9 @@ final class SuperModelDO: ObservableObject {
     
     func beginStartX() {
         
+        #if os(macOS)
         NotificationCenter.default.addObserver(self, selector: #selector(updateGroupxx(notification:)), name: .NSCalendarDayChanged, object: nil)
+        #endif
         
     }
     
@@ -82,10 +87,9 @@ final class SuperModel: ObservableObject {
     
     func startNow() {
         
-        
-        
-        
+        #if os(macOS)
         NotificationCenter.default.addObserver(self, selector: #selector(updateGroupx(notification:)), name: .NSCalendarDayChanged, object: nil)
+        #endif
            
         
      
@@ -104,6 +108,8 @@ final class SuperModel: ObservableObject {
    
     
 }
+
+#endif // canImport(Combine)
 
 
 

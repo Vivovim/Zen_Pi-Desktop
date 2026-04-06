@@ -6,6 +6,7 @@
 //
 
 import Foundation
+#if canImport(Combine)
 import Combine
 
 @MainActor
@@ -23,10 +24,7 @@ final class DailyOutLookModel: ObservableObject {
     
   
 }
-   
-
-
-
+#endif
 
     
 

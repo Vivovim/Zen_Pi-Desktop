@@ -6,9 +6,12 @@
 //
 
 
+#if canImport(SwiftUI)
 import SwiftUI
 import Combine
+#if canImport(AppKit)
 import AppKit
+#endif
 
 
 
@@ -68,3 +71,5 @@ struct AboutView: View {
     AboutView()
         
 }
+
+#endif // canImport(SwiftUI)

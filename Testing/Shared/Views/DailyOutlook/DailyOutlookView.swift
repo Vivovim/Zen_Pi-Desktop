@@ -20,6 +20,7 @@
 //
 
 
+#if canImport(SwiftUI)
 import SwiftUI
 
 struct DailyOutLookView: View {
@@ -37,3 +38,5 @@ struct DailyOutLookView: View {
     let modelXD = SuperModelDO()
     DailyOutLookView(model: modelXD)
 }
+
+#endif // canImport(SwiftUI)

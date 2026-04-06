@@ -5,9 +5,12 @@
 //  Created by Christopher Huffaker on 11/16/24.
 //
 
+#if canImport(SwiftUI)
 import SwiftUI
 import Combine
+#if canImport(AppKit)
 import AppKit
+#endif
 
 struct Option: Hashable {
     let label: String
@@ -219,5 +222,5 @@ struct OptionPicker: View {
     ContentView()
 }
 
-
+#endif // canImport(SwiftUI)
 

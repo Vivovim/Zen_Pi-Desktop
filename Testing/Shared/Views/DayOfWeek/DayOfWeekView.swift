@@ -6,6 +6,7 @@
 //
 
 
+#if canImport(SwiftUI)
 import SwiftUI
 
 struct DayOfWeekView: View {
@@ -23,3 +24,5 @@ struct DayOfWeekView: View {
     let modelXX = SuperModel()
     DayOfWeekView(model: modelXX)
 }
+
+#endif // canImport(SwiftUI)
