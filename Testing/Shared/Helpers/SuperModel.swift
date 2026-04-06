@@ -110,7 +110,8 @@ final class SuperModel: ObservableObject {
 
 func weekNumber() -> String {
     
-    let calendar = Calendar.current
+    var calendar = Calendar.current
+    calendar.firstWeekday = 1 // Sunday
     let weekOfYear = calendar.component(.weekOfYear, from: Date(timeIntervalSinceNow: 0))
     
     let WeekOfYearX = String(weekOfYear)
