@@ -122,7 +122,7 @@ struct ContentView: View {
                 }
                 .padding()
                 
-                .frame(minWidth: 500, maxHeight: 325)
+                .frame(minWidth: 600)
                 .background(Color.black)
                 .border(.gray, width: 2)
             }

@@ -27,6 +27,7 @@ final class SuperModelDO: ObservableObject {
     @Published private(set) var dailyX: String = "Loading. . ." /// Must have a default value
     ///
     private var bagSetX = Set<AnyCancellable>()
+    private var lastFetchedDOY: Int = -1
     
     
     func beginStartX() {
@@ -35,9 +36,21 @@ final class SuperModelDO: ObservableObject {
         NotificationCenter.default.addObserver(self, selector: #selector(updateGroupxx(notification:)), name: .NSCalendarDayChanged, object: nil)
         #endif
         
+        // Timer that checks every 60 seconds if the day has changed
+        Timer.publish(every: 60, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                guard let self else { return }
+                let currentDOY = getDayOfYear()
+                if currentDOY != self.lastFetchedDOY {
+                    self.refreshDailyOutlook()
+                }
+            }
+            .store(in: &bagSetX)
     }
     
     init() {
+        lastFetchedDOY = getDayOfYear()
         Task {
             let result = await buildIt()
             DispatchQueue.main.async {
@@ -58,14 +71,16 @@ final class SuperModelDO: ObservableObject {
         }
     }
     
-    
-    @objc func updateGroupxx(notification : NSNotification) {
+    private func refreshDailyOutlook() {
+        lastFetchedDOY = getDayOfYear()
         Task {
             let result = await buildIt()
-            DispatchQueue.main.async {
-                self.dailyX = result ?? ""
-            }
+            self.dailyX = result ?? ""
         }
+    }
+    
+    @objc func updateGroupxx(notification : NSNotification) {
+        refreshDailyOutlook()
     }
     
 }
