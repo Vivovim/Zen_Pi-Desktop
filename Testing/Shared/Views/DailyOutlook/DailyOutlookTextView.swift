@@ -37,7 +37,12 @@ struct DailyOutlookTextView: View {
                 .foregroundColor(.green)
                 .animation(.easeInOut(duration: 0.5), value: DailyOutLook)
                 .lineSpacing(20)
-                .frame(maxWidth: 400, maxHeight: 325)
+                .frame(maxWidth: 600)
+                .padding()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
         } else {
             // Fallback on earlier versions
             Text(DailyOutLook)
@@ -45,6 +50,12 @@ struct DailyOutlookTextView: View {
                 .font(.largeTitle)
                 .foregroundStyle(Color.green)
                 .animation(.easeInOut(duration: 0.5), value: DailyOutLook)
+                .frame(maxWidth: 600)
+                .padding()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
         }
     }
 }
