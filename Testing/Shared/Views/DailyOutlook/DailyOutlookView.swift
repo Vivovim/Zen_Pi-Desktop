@@ -24,7 +24,7 @@
 import SwiftUI
 
 struct DailyOutLookView: View {
-    @StateObject var model: SuperModelDO
+    @StateObject private var model = SuperModelDO()
     
     var body: some View {
         DailyOutlookTextView(DailyOutLook: model.dailyX)
@@ -35,8 +35,7 @@ struct DailyOutLookView: View {
 
 @available(iOS 17.0, *)
 #Preview {
-    let modelXD = SuperModelDO()
-    DailyOutLookView(model: modelXD)
+    DailyOutLookView()
 }
 
 #endif // canImport(SwiftUI)

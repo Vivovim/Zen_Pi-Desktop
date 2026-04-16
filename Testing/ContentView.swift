@@ -117,8 +117,7 @@ struct ContentView: View {
                         .foregroundStyle(Color.green)
                         .fontWeight(.medium)
                         .font(.title3)
-                    let dailyoutlookModel = SuperModelDO()
-                    DailyOutLookView(model: dailyoutlookModel)
+                    DailyOutLookView()
                 }
                 .padding()
                 
@@ -223,4 +222,3 @@ struct OptionPicker: View {
 }
 
 #endif // canImport(SwiftUI)
-

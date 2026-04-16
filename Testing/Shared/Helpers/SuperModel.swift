@@ -28,9 +28,12 @@ final class SuperModelDO: ObservableObject {
     ///
     private var bagSetX = Set<AnyCancellable>()
     private var lastFetchedDOY: Int = -1
+    private var hasStarted = false
     
     
     func beginStartX() {
+        guard !hasStarted else { return }
+        hasStarted = true
         
         #if os(macOS)
         NotificationCenter.default.addObserver(self, selector: #selector(updateGroupxx(notification:)), name: .NSCalendarDayChanged, object: nil)
@@ -43,7 +46,7 @@ final class SuperModelDO: ObservableObject {
                 guard let self else { return }
                 let currentDOY = getDayOfYear()
                 if currentDOY != self.lastFetchedDOY {
-                    self.refreshDailyOutlook()
+                    self.refreshDailyOutlook(for: currentDOY)
                 }
             }
             .store(in: &bagSetX)
@@ -52,29 +55,32 @@ final class SuperModelDO: ObservableObject {
     init() {
         lastFetchedDOY = getDayOfYear()
         Task {
-            let result = await buildIt()
-            DispatchQueue.main.async {
-                self.dailyX = result ?? ""
-            }
+            dailyX = await buildIt(for: lastFetchedDOY) ?? ""
         }
+    }
+    
+    deinit {
+        #if os(macOS)
+        NotificationCenter.default.removeObserver(self)
+        #endif
     }
     
     
     /// NEW USING ASYNC
-    func buildIt() async -> String? {
+    func buildIt(for doy: Int) async -> String? {
         await withCheckedContinuation { continuation in
             // Call the completion-based method
-            EntryService.shared.getEntryString(doy: getDayOfYear()) { entryString in
+            EntryService.shared.getEntryString(doy: doy) { entryString in
                 // Resume the continuation with the result
                 continuation.resume(returning: entryString)
             }
         }
     }
     
-    private func refreshDailyOutlook() {
-        lastFetchedDOY = getDayOfYear()
+    private func refreshDailyOutlook(for doy: Int = getDayOfYear()) {
+        lastFetchedDOY = doy
         Task {
-            let result = await buildIt()
+            let result = await buildIt(for: doy)
             self.dailyX = result ?? ""
         }
     }

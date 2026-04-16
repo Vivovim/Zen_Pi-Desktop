@@ -108,9 +108,9 @@ func padCenter(_ str: String, width: Int) -> String {
 @main
 struct ZenPiLinux {
     static func main() {
-        // Fetch the daily outlook once at startup
-        let doy = getDayOfYear()
-        let dailyOutlook = fetchDailyOutlook(doy: doy)
+        // Refresh the daily outlook whenever the calendar day rolls over.
+        var lastFetchedDOY = getDayOfYear()
+        var dailyOutlook = fetchDailyOutlook(doy: lastFetchedDOY)
 
         // Set up signal handler for clean exit
         signal(SIGINT) { _ in
@@ -123,6 +123,12 @@ struct ZenPiLinux {
             let now = Date()
             let secondsToday = convertToSecondsLeftInTheDay(date: now)
             let secondsYear = setupNewYear(date: now)
+            let currentDOY = getDayOfYear()
+
+            if currentDOY != lastFetchedDOY {
+                lastFetchedDOY = currentDOY
+                dailyOutlook = fetchDailyOutlook(doy: currentDOY)
+            }
 
             renderDisplay(
                 secondsToday: secondsToday,
