@@ -5,7 +5,12 @@
 //  Created by Christopher Huffaker on 11/20/24.
 //
 
+#if canImport(SwiftUI)
 import SwiftUI
+#else
+import Foundation
+#endif
+#if canImport(Combine)
 import Combine
 
 @MainActor
@@ -13,53 +18,71 @@ final class SuperModelX: ObservableObject {
     @Published private(set) var countDownText: String = "86,400"
     @Published private(set) var NewYearsDate: String = "31,536,000"
     
+    
+    
     private var bag = Set<AnyCancellable>()
     
     func start() {
-        startTimer(
-            transform: convertToSecondsLeftInTheDay(date:),
-            updatePublished: { self.countDownText = $0 }
-        )
-    }
-    
-    func startX() {
-        startTimer(
-            transform: setupNewYear(date:),
-            updatePublished: { self.NewYearsDate = $0 }
-        )
+        // Determine time until the next whole second.
+        let now = Date()
+        let delay = determineTimeIntervalUntilTheNextWholeSecond(from: now)
+        // Launch Timer after delay.
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+            // Don't start publisher if self doesn't exist.
+            guard let self else { return }
+            // Create a Timer that fires every second and updates countDownText.
+            Timer.publish(every: 1, on: .main, in: .common)
+                .autoconnect()
+                .map(convertToSecondsLeftInTheDay(date:))
+                .sink { [weak self] timeString in
+                    self?.countDownText = timeString
+                }
+                .store(in: &self.bag)
+        }
     }
     
     func stop() {
         bag.removeAll(keepingCapacity: true)
     }
+
+
+
+
     
-    func stopX() {
-        bag.removeAll(keepingCapacity: true)
-    }
-    
-    // MARK: - Private Helper
-    
-    private func startTimer(
-        transform: @escaping (Date) -> String,
-        updatePublished: @escaping (String) -> Void
-    ) {
+    func startX() {
+
+        
+     
         let now = Date()
         let delay = determineTimeIntervalUntilTheNextWholeSecond(from: now)
         
+        
+        
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+            // Don't start publisher if self doesn't exist.
             guard let self else { return }
+            // Create a Timer that fires every second and updates countDownText.
             Timer.publish(every: 1, on: .main, in: .common)
                 .autoconnect()
-                .map(transform)
+                .map(setupNewYear(date:))
                 .sink { [weak self] timeString in
-                    updatePublished(timeString)
+                    self?.NewYearsDate = timeString
                 }
                 .store(in: &self.bag)
         }
     }
+    
+    func stopX() {
+        bag.removeAll(keepingCapacity: true)
+    }
+
+
 }
 
-// end here
+#endif
+
+
 
 func setupNewYear(date: Date) -> String {
     
@@ -100,7 +123,7 @@ func setupNewYear(date: Date) -> String {
     let fixoffset = NewYearDayInt + 1
 
 
-    let FormattedNewYearsDay = fixoffset.formatted()
+    let FormattedNewYearsDay = formattedNumber(fixoffset)
     
     
     let NewYearXDay = String(FormattedNewYearsDay)
