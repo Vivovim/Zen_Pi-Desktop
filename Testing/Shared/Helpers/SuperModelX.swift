@@ -149,7 +149,11 @@ func setupNewYear(date: Date) -> String {
     let NewYearDayInt = Int(NewYearDay)
     let fixoffset = NewYearDayInt + 1
 
-    let NewYearXDay = String(fixoffset)
+	 let FormattedNewYearsDay = formattedNumber(fixoffset)
+    
+    
+    let NewYearXDay = String(FormattedNewYearsDay)
+
     
     return "\(NewYearXDay)"
 }
