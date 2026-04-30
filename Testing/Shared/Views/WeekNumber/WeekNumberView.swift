@@ -10,7 +10,7 @@
 import SwiftUI
 
 struct WeekNumberView: View {
-    @StateObject var model: SuperModel
+    @ObservedObject var model: SuperModel
     
     var body: some View {
         WeekNumberTextView(WeekNumberX: model.WeekNumber)

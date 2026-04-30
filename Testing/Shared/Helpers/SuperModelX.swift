@@ -19,6 +19,10 @@ final class SuperModelX {
     private var NewYearsDate: String = "31,536,000"
     
     private var timerTask: DispatchSourceTimer?
+
+    init() {
+        refreshValues(for: Date())
+    }
     
     func start() {
         startCombinedTimer()
@@ -36,6 +40,10 @@ final class SuperModelX {
     func stopX() {
         stop()
     }
+
+    deinit {
+        stop()
+    }
     
     func getCountDownText() -> String {
         return countDownText
@@ -46,6 +54,11 @@ final class SuperModelX {
     }
     
     // MARK: - Private Helper
+
+    private func refreshValues(for date: Date) {
+        countDownText = convertToSecondsLeftInTheDay(date: date)
+        NewYearsDate = setupNewYear(date: date)
+    }
     
     private func startCombinedTimer() {
         // If timer is already running, don't start another
@@ -55,14 +68,14 @@ final class SuperModelX {
         let timer = DispatchSource.makeTimerSource(queue: queue)
         
         let now = Date()
+        refreshValues(for: now)
         let delay = determineTimeIntervalUntilTheNextWholeSecond(from: now)
         
         timer.schedule(deadline: .now() + delay, repeating: 1.0)
         timer.setEventHandler { [weak self] in
             guard let self else { return }
-            // Update both values from a single timer tick
-            self.countDownText = convertToSecondsLeftInTheDay(date: Date())
-            self.NewYearsDate = setupNewYear(date: Date())
+            let tickDate = Date()
+            self.refreshValues(for: tickDate)
         }
         
         timer.resume()
@@ -75,8 +88,11 @@ final class SuperModelX: ObservableObject {
     @Published private(set) var countDownText: String = "86,400"
     @Published private(set) var NewYearsDate: String = "31,536,000"
     
-    private var bag = Set<AnyCancellable>()
     private var timerCancellable: AnyCancellable?
+
+    init() {
+        refreshValues(for: Date())
+    }
     
     func start() {
         startCombinedTimer()
@@ -89,20 +105,25 @@ final class SuperModelX: ObservableObject {
     func stop() {
         timerCancellable?.cancel()
         timerCancellable = nil
-        bag.removeAll(keepingCapacity: true)
     }
     
     func stopX() {
         stop()
     }
-    
+
     // MARK: - Private Helper
+
+    private func refreshValues(for date: Date) {
+        countDownText = convertToSecondsLeftInTheDay(date: date)
+        NewYearsDate = setupNewYear(date: date)
+    }
     
     private func startCombinedTimer() {
         // If timer is already running, don't start another
         guard timerCancellable == nil else { return }
         
         let now = Date()
+        refreshValues(for: now)
         let delay = determineTimeIntervalUntilTheNextWholeSecond(from: now)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
@@ -112,9 +133,8 @@ final class SuperModelX: ObservableObject {
                 .autoconnect()
                 .sink { [weak self] _ in
                     guard let self else { return }
-                    // Update both values from a single timer tick
-                    self.countDownText = convertToSecondsLeftInTheDay(date: Date())
-                    self.NewYearsDate = setupNewYear(date: Date())
+                    let tickDate = Date()
+                    self.refreshValues(for: tickDate)
                 }
         }
     }
@@ -124,36 +144,21 @@ final class SuperModelX: ObservableObject {
 // end here
 
 func setupNewYear(date: Date) -> String {
-    let currentDate = Date()
     let calendar = Calendar.current
-    let currentYear = calendar.component(.year, from: currentDate)
-    let yearX1 = currentYear + 1
-    
-    let year = yearX1
-    let month = 1
-    let day = 1
-    let hour = 0
-    let minute = 0
-    let second = 0
+    let currentYear = calendar.component(.year, from: date)
 
     var components = DateComponents()
-    components.year = year
-    components.month = month
-    components.day = day
-    components.hour = hour
-    components.minute = minute
-    components.second = second
+    components.year = currentYear + 1
+    components.month = 1
+    components.day = 1
+    components.hour = 0
+    components.minute = 0
+    components.second = 0
 
-    let dateX = Calendar.current.date(from: components)!
-    let NewYearDay = dateX.timeIntervalSince(currentDate)
-    let NewYearDayInt = Int(NewYearDay)
-    let fixoffset = NewYearDayInt + 1
+    guard let nextNewYear = calendar.date(from: components) else {
+        return "0"
+    }
 
-	 let FormattedNewYearsDay = formattedNumber(fixoffset)
-    
-    
-    let NewYearXDay = String(FormattedNewYearsDay)
-
-    
-    return "\(NewYearXDay)"
+    let secondsUntilNewYear = max(0, Int(nextNewYear.timeIntervalSince(date).rounded(.down)) + 1)
+    return formattedNumber(secondsUntilNewYear)
 }

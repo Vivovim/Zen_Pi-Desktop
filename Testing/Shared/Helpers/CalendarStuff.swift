@@ -8,11 +8,26 @@
 import Foundation
 
 /// Formats an integer with locale-aware grouping separators (e.g., 86400 -> "86,400").
-/// Uses NumberFormatter for cross-platform compatibility (macOS and Linux).
+/// Uses a lightweight formatter to avoid allocating NumberFormatter instances every tick.
 func formattedNumber(_ value: Int) -> String {
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .decimal
-    return formatter.string(from: NSNumber(value: value)) ?? String(value)
+    let separator = Locale.current.groupingSeparator ?? ","
+    let digits = String(abs(value))
+    guard digits.count > 3 else {
+        return value < 0 ? "-\(digits)" : digits
+    }
+
+    var groups: [String] = []
+    groups.reserveCapacity((digits.count + 2) / 3)
+
+    var endIndex = digits.endIndex
+    while endIndex > digits.startIndex {
+        let startIndex = digits.index(endIndex, offsetBy: -3, limitedBy: digits.startIndex) ?? digits.startIndex
+        groups.append(String(digits[startIndex..<endIndex]))
+        endIndex = startIndex
+    }
+
+    let formatted = groups.reversed().joined(separator: separator)
+    return value < 0 ? "-\(formatted)" : formatted
 }
 
 /// Converts a value of Date to the amount of seconds left in a day

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SecondsYearView: View {
-    @StateObject var model: SuperModelX
+    @ObservedObject var model: SuperModelX
     
     var body: some View {
         SecondsYearTextView(secondsNYD: model.NewYearsDate)

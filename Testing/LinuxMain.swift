@@ -24,20 +24,33 @@ struct ANSIColor {
     static let cyan = "\u{1B}[36m"
 }
 
-/// Fetches the daily outlook entry from the server synchronously.
-func fetchDailyOutlook(doy: Int) -> String {
-    let semaphore = DispatchSemaphore(value: 0)
-    var result = "Unable to fetch daily outlook."
+/// Stores the latest daily outlook and refreshes it in the background.
+final class DailyOutlookState {
+    private let stateQueue = DispatchQueue(label: "zenpi.dailyOutlook.state")
+    private var currentText = "Loading daily outlook..."
+    private var requestedDOY: Int?
 
-    EntryService.shared.getEntryString(doy: doy) { entryString in
-        if let entry = entryString {
-            result = entry
-        }
-        semaphore.signal()
+    func text() -> String {
+        stateQueue.sync { currentText }
     }
 
-    _ = semaphore.wait(timeout: .now() + 10)
-    return result
+    func request(for doy: Int) {
+        let shouldFetch = stateQueue.sync { () -> Bool in
+            guard requestedDOY != doy else { return false }
+            requestedDOY = doy
+            return true
+        }
+
+        guard shouldFetch else { return }
+
+        EntryService.shared.getEntryString(doy: doy) { [weak self] entryString in
+            guard let self else { return }
+            let updatedText = (entryString?.isEmpty == false) ? (entryString ?? "") : "Unable to fetch daily outlook."
+            self.stateQueue.async {
+                self.currentText = updatedText
+            }
+        }
+    }
 }
 
 /// Renders the terminal display with current time data.
@@ -108,9 +121,9 @@ func padCenter(_ str: String, width: Int) -> String {
 @main
 struct ZenPiLinux {
     static func main() {
-        // Refresh the daily outlook whenever the calendar day rolls over.
-        var lastFetchedDOY = getDayOfYear()
-        var dailyOutlook = fetchDailyOutlook(doy: lastFetchedDOY)
+        // Render immediately, then refresh the outlook whenever the calendar day rolls over.
+        let outlookState = DailyOutlookState()
+        outlookState.request(for: getDayOfYear())
 
         // Set up signal handler for clean exit
         signal(SIGINT) { _ in
@@ -124,16 +137,12 @@ struct ZenPiLinux {
             let secondsToday = convertToSecondsLeftInTheDay(date: now)
             let secondsYear = setupNewYear(date: now)
             let currentDOY = getDayOfYear()
-
-            if currentDOY != lastFetchedDOY {
-                lastFetchedDOY = currentDOY
-                dailyOutlook = fetchDailyOutlook(doy: currentDOY)
-            }
+            outlookState.request(for: currentDOY)
 
             renderDisplay(
                 secondsToday: secondsToday,
                 secondsYear: secondsYear,
-                dailyOutlook: dailyOutlook
+                dailyOutlook: outlookState.text()
             )
 
             // Sleep until the next whole second

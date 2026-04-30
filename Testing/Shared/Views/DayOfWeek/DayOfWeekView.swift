@@ -10,7 +10,7 @@
 import SwiftUI
 
 struct DayOfWeekView: View {
-    @StateObject var model: SuperModel
+    @ObservedObject var model: SuperModel
     
     var body: some View {
         DayOfWeekTextView(DayOfWeekX: model.DayOfWeek)

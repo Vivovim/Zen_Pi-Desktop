@@ -22,6 +22,9 @@ struct Option: Hashable {
    
 
 struct ContentView: View {
+    @StateObject private var calendarModel = SuperModel()
+    @StateObject private var countdownModel = SuperModelX()
+
    
     @State var options: [Option] = [
         Option(label: "Seconds Remaining", selected: true, showDetail: true),
@@ -40,16 +43,14 @@ struct ContentView: View {
                 VStack() {
                     
                     Text("Day Of Year")
-                    let DaysOfYearModel = SuperModel()
-                    DaysInYearView(model: DaysOfYearModel)
+                    DaysInYearView(model: calendarModel)
                 }
                 Spacer()
                     .frame(width: 250)
                 
                 VStack {
                     Text("Days Remaining")
-                    let DaysLeftModel = SuperModel()
-                    DaysLeftView(model: DaysLeftModel)
+                    DaysLeftView(model: calendarModel)
                     
                 }
                 
@@ -60,15 +61,13 @@ struct ContentView: View {
             HStack(spacing: 10) {
                 VStack {
                     Text("Week Number")
-                    let WeekNumberModel = SuperModel()
-                    WeekNumberView(model: WeekNumberModel)
+                    WeekNumberView(model: calendarModel)
                 }
                 Spacer()
                     .frame(width: 250)
                 VStack {
                     Text("Day of Week")
-                    let DayOfWeekModel = SuperModel()
-                    DayOfWeekView(model: DayOfWeekModel)
+                    DayOfWeekView(model: calendarModel)
                 }
             }
             
@@ -86,8 +85,7 @@ struct ContentView: View {
                         .foregroundStyle(Color.green)
                         .fontWeight(.medium)
                         .font(.title3)
-                    let SecondsYearModel = SuperModelX()
-                    SecondsYearView(model: SecondsYearModel)
+                    SecondsYearView(model: countdownModel)
                     
                     Spacer()
                         .frame(height: 40)
@@ -96,8 +94,7 @@ struct ContentView: View {
                         .foregroundStyle(Color.green)
                         .fontWeight(.medium)
                         .font(.title3)
-                    let countDownModel = SuperModelX()
-                    CountDownView(model: countDownModel)
+                    CountDownView(model: countdownModel)
                     
                     
                     

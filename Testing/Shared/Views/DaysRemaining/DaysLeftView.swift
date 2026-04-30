@@ -10,7 +10,7 @@
 import SwiftUI
 
 struct DaysLeftView: View {
-    @StateObject var model: SuperModel
+    @ObservedObject var model: SuperModel
     
     var body: some View {
         DaysLeftTextView(DaysLeftOfYear: model.DaysLeft)
