@@ -51,7 +51,7 @@ final class SuperModelX: ObservableObject {
             Timer.publish(every: 1, on: .main, in: .common)
                 .autoconnect()
                 .map(transform)
-                .sink { [weak self] timeString in
+                .sink { timeString in
                     updatePublished(timeString)
                 }
                 .store(in: &self.bag)

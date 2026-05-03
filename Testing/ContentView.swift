@@ -19,16 +19,14 @@ struct Option: Hashable {
    
 
 struct ContentView: View {
-   
+    @Environment(\.openURL) private var openURL
+
     @State var options: [Option] = [
         Option(label: "Seconds Remaining", selected: true, showDetail: true),
         Option(label: "Daily Outlook", selected: false, showDetail: false)
     ]
     
     var body: some View {
-        @Environment(\.openURL) var openLink
-        
-        
         Spacer()
             .frame(height: 20)
         
@@ -134,9 +132,9 @@ struct ContentView: View {
             
                 Spacer()
                 Button {
-                    openLink(URL(string: "https://links.xyzzy42.me/")!)
-                    
-                    
+                    if let url = URL(string: "https://links.xyzzy42.me/") {
+                        openURL(url)
+                    }
                 } label: {
                     Image(systemName: "globe")
                         .imageScale(.large)
